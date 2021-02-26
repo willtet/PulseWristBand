@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "87553138925",
+    "project_id": "pulsewristband",
+    "storage_bucket": "pulsewristband.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87553138925:android:3a025f6a4fdd04c787ace4",
+        "android_client_info": {
+          "package_name": "com.newhorizon.pulsewristband"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87553138925-vbkf3939aqecc2nmbne3nhsr52tg0p1c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.newhorizon.pulsewristband",
+            "certificate_hash": "ca7d17aef189e277f300d0a3aa214dfddca02cf1"
+          }
+        },
+        {
+          "client_id": "87553138925-m1nbinlrpq6lv90igqqsrlmm2l2ruuoo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv7_8HnFX34Y2Q0PBjixZLGrR0Lq0omqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87553138925-m1nbinlrpq6lv90igqqsrlmm2l2ruuoo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/id_logo"
+        android:layout_width="214dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="113dp"
+        android:layout_marginBottom="224dp"
+        android:text="PulseWristBand"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/email_area"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/email_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="32dp"
+        android:ems="10"
+        android:hint="email"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/pass_area"
+        app:layout_constraintEnd_toEndOf="@+id/pass_area"
+        app:layout_constraintTop_toBottomOf="@+id/id_logo" />
+
+    <EditText
+        android:id="@+id/pass_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
+        android:ems="10"
+        android:hint="senha"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/bt_entrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_area" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginBottom="58dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/bt_entrar"
+        app:layout_constraintTop_toBottomOf="@+id/bt_entrar" />
+
+    <Button
+        android:id="@+id/bt_entrar"
+        android:layout_width="167dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="59dp"
+        android:text="Entrar"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="@+id/pass_area"
+        app:layout_constraintStart_toStartOf="@+id/pass_area"
+        app:layout_constraintTop_toBottomOf="@+id/pass_area" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

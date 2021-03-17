@@ -47,13 +47,14 @@
         app:layout_constraintTop_toBottomOf="@+id/email_area" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/id_cadastro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
         android:layout_marginBottom="58dp"
-        android:text="TextView"
+        android:text="Cadastrar"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/bt_entrar"
         app:layout_constraintTop_toBottomOf="@+id/bt_entrar" />
@@ -64,7 +65,7 @@
         android:layout_height="46dp"
         android:layout_marginBottom="59dp"
         android:text="Entrar"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/id_cadastro"
         app:layout_constraintEnd_toEndOf="@+id/pass_area"
         app:layout_constraintStart_toStartOf="@+id/pass_area"
         app:layout_constraintTop_toBottomOf="@+id/pass_area" />

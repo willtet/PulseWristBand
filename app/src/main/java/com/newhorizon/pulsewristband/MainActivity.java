@@ -24,7 +24,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     Button btn;
-    BluetoothHealth bh;
+    BluetoothHealth bhk;
     int REQUEST_ENABLE_BT = 1;
 
 

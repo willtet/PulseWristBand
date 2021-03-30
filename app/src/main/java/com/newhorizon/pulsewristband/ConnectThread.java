@@ -27,7 +27,11 @@ public class ConnectThread extends Thread{
 
     public ConnectThread() {
         this.server = true;
-        btAddress = "00:20:05:00:05:E1";
+    }
+
+    public ConnectThread(String bt) {
+        this.server = false;
+        btAddress = bt;
     }
 
     @Override
@@ -202,6 +206,7 @@ public class ConnectThread extends Thread{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            toMainActivity("ok".getBytes());
         } else {
 
             /*  Envia à Activity principal um código de erro durante a conexão.

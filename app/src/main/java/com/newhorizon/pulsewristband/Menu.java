@@ -36,11 +36,14 @@ public class Menu extends AppCompatActivity {
     Button ler;
     Button escrever;
     static TextView conectado;
+    static TextView test;
 
-    private BluetoothSocket socket;
-    private InputStream mmInStream;
-    private OutputStream mmOutStream;
+    private InputStream inStream;
+    private OutputStream outStream;
     private byte[] mmBuffer; // mmBuffer store for the stream
+
+    BluetoothSocket socket = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +56,12 @@ public class Menu extends AppCompatActivity {
         ler = findViewById(R.id.b_ler);
         escrever = findViewById(R.id.b_escrever);
         conectado = findViewById(R.id.connection);
+        test = findViewById(R.id.test);
 
         mmBuffer = new byte[0];
         BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice("00:20:05:00:05:E1");
+
+
 
         conectar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,11 +71,21 @@ public class Menu extends AppCompatActivity {
                     startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
                 }
 
-                connect = new ConnectThread();
-                connect.start();
-                if (connect.isConnected){
-                    conectado.setText("Connectado");
+                try {
+                    socket = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+                    socket.connect();
+
+                    inStream = socket.getInputStream();
+                    outStream = socket.getOutputStream();
+
+                    if (socket.isConnected()){
+                        conectado.setText("Connectado");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+
 
                 try {
                     Thread.sleep(1000);
@@ -83,68 +99,37 @@ public class Menu extends AppCompatActivity {
         ler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputStream inputStream = null;
                 try {
-                    socket = device.createRfcommSocketToServiceRecord(mUUID);
-                    socket.connect();
+                    outStream.write("AT+NAME".getBytes());
+                    byte[] buffer = new byte[256];
+                    int bytes;
+                    int bytesRead = -1;
 
-                    inputStream = socket.getInputStream();
-                    inputStream.skip(inputStream.available());
-
-                    for (int i = 0; i < 26; i++) {
-
-                        byte b = (byte) inputStream.read();
-                        System.out.println((int) b);
-
-                    }
-                    socket.close();
-
+                    int length = inStream.read(buffer);
+                        bytes = inStream.read(buffer, 0, length);
+                    System.out.println(bytes);
+                        System.out.println(new String(buffer, 0,length));
                 }catch (Exception e){
-                    System.out.println(e);
+
                 }
             }
         });
-
 
         escrever.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    socket = device.createRfcommSocketToServiceRecord(mUUID);
-                    socket.connect();
-                    System.out.println("Connected");
-                    mmOutStream = socket.getOutputStream();
-
-                    try {
-                        mmOutStream.write(mmBuffer);
-                        System.out.println(mmBuffer);
-                        // Share the sent message with the UI activity.
-                        Message writtenMsg = handler.obtainMessage(
-                                1, -1, -1, mmBuffer);
-                        writtenMsg.sendToTarget();
-                        System.out.println(writtenMsg.toString());
-                    } catch (IOException e) {
-                        Log.e(TAG, "Error occurred when sending data", e);
-
-                        // Send a failure message back to the activity.
-                        Message writeErrorMsg =
-                                handler.obtainMessage(2);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("toast",
-                                "Couldn't send data to the other device");
-                        writeErrorMsg.setData(bundle);
-                        handler.sendMessage(writeErrorMsg);
-                    }
-
-                    socket.close();
-
-
-                }catch (Exception e){
-                    System.out.println(e);
+                    System.out.println("AT+NAME".getBytes());
+                    outStream.write("AT+NAME".getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
     }
+
+
 
     public static Handler handler = new Handler() {
         @Override
@@ -163,11 +148,13 @@ public class Menu extends AppCompatActivity {
                 mensagens de status de conexão (iniciadas com --),
                 atualizamos o status da conexão conforme o código.
              */
-            if(dataString.equals("---N"))
+            if(dataString.equals("---N")){
                 conectado.setText("Ocorreu um erro durante a conexão D:");
-            else if(dataString.equals("---S"))
+                test.setText(dataString);
+            }else if(dataString.equals("---S")) {
                 conectado.setText("Conectado :D");
-            else {
+                test.setText(dataString);
+            }else {
             }
 
         }

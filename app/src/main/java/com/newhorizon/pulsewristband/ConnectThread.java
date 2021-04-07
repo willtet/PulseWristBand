@@ -156,6 +156,7 @@ public class ConnectThread extends Thread{
                     uma quebra de linha seja identificada. Nesse ponto, assumimos
                     que a mensagem foi transmitida por completo.
                      */
+
                     do {
                         bytes = input.read(buffer, bytesRead+1, 1);
                         bytesRead+=bytes;
@@ -187,7 +188,6 @@ public class ConnectThread extends Thread{
         Bundle bundle = new Bundle();
         bundle.putByteArray("data", data);
         message.setData(bundle);
-        Menu.handler.sendMessage(message);
     }
 
     /*  Método utilizado pela Activity principal para transmitir uma mensagem ao

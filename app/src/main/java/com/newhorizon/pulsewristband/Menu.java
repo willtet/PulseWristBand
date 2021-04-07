@@ -36,7 +36,7 @@ public class Menu extends AppCompatActivity {
     Button ler;
     Button escrever;
     static TextView conectado;
-    static TextView test;
+    TextView test;
 
     private InputStream inStream;
     private OutputStream outStream;
@@ -81,11 +81,10 @@ public class Menu extends AppCompatActivity {
                     if (socket.isConnected()){
                         conectado.setText("Connectado");
                     }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
 
                 try {
                     Thread.sleep(1000);
@@ -99,19 +98,27 @@ public class Menu extends AppCompatActivity {
         ler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    outStream.write("AT+NAME".getBytes());
-                    byte[] buffer = new byte[256];
-                    int bytes;
-                    int bytesRead = -1;
 
-                    int length = inStream.read(buffer);
-                        bytes = inStream.read(buffer, 0, length);
-                    System.out.println(bytes);
-                        System.out.println(new String(buffer, 0,length));
-                }catch (Exception e){
+                byte[] buffer = new byte[960];
+                boolean x = true;
+                int bytes;
+                int counter = 0;
+                int media = 0;
 
+                while(x){
+                    try {
+                        bytes = inStream.read(buffer);
+                        String a = new String(buffer, 1, bytes);
+                        System.out.print(a);
+                        counter++;
+                        if(counter == 10){
+                            x = false;
+                        }
+                    }catch (Exception e){
+                        x = false;
+                    }
                 }
+
             }
         });
 
@@ -119,8 +126,8 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    System.out.println("AT+NAME".getBytes());
-                    outStream.write("AT+NAME".getBytes());
+                    int i = 1;
+                    outStream.write((byte) i);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -130,35 +137,6 @@ public class Menu extends AppCompatActivity {
     }
 
 
-
-    public static Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-
-            /* Esse método é invocado na Activity principal
-                sempre que a thread de conexão Bluetooth recebe
-                uma mensagem.
-             */
-            Bundle bundle = msg.getData();
-            byte[] data = bundle.getByteArray("data");
-            String dataString= new String(data);
-
-            /* Aqui ocorre a decisão de ação, baseada na string
-                recebida. Caso a string corresponda à uma das
-                mensagens de status de conexão (iniciadas com --),
-                atualizamos o status da conexão conforme o código.
-             */
-            if(dataString.equals("---N")){
-                conectado.setText("Ocorreu um erro durante a conexão D:");
-                test.setText(dataString);
-            }else if(dataString.equals("---S")) {
-                conectado.setText("Conectado :D");
-                test.setText(dataString);
-            }else {
-            }
-
-        }
-    };
 
 
 

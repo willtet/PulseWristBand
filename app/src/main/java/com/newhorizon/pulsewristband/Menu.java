@@ -20,7 +20,10 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ArrayBlockingQueue;
 
 
 public class Menu extends AppCompatActivity {
@@ -30,6 +33,7 @@ public class Menu extends AppCompatActivity {
     static final UUID mUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private final static int REQUEST_ENABLE_BT = 1;
+
 
 
     Button conectar;
@@ -60,6 +64,8 @@ public class Menu extends AppCompatActivity {
 
         mmBuffer = new byte[0];
         BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice("00:20:05:00:05:E1");
+
+        ArrayBlockingQueue<String> lista = new ArrayBlockingQueue<String>(20);
 
 
 
@@ -101,22 +107,54 @@ public class Menu extends AppCompatActivity {
 
                 byte[] buffer = new byte[960];
                 boolean x = true;
-                int bytes;
+                int bytes = 0;
                 int counter = 0;
                 int media = 0;
+                String a = "";
+                int bytesRead = -1;
 
                 while(x){
                     try {
-                        bytes = inStream.read(buffer);
-                        String a = new String(buffer, 1, bytes);
-                        System.out.print(a);
+                        Thread.sleep(2000);
+                        synchronized (this) {
+                            try {
+                                bytes = inStream.read(buffer, bytesRead+1, 1);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        synchronized (this) {
+                            try {
+                                 a = String.valueOf(bytes);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        if(buffer[bytesRead] == 'c'){
+                            System.out.println("para aq");
+                        }
+
+                        lista.add(a);
+                        System.out.println(a);
                         counter++;
+                        bytesRead+=bytes;
+                        System.out.println("bytes: "+ buffer[bytesRead]);
+                        if(buffer[bytesRead] == 'x'){
+                            System.out.println("para aq");
+                        }
+
                         if(counter == 10){
                             x = false;
                         }
                     }catch (Exception e){
                         x = false;
                     }
+                }
+
+                for (String e : lista) {
+                    System.out.println("Thread: "+e);
                 }
 
             }
@@ -126,8 +164,8 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    int i = 1;
-                    outStream.write((byte) i);
+                    int i = 0;
+                    outStream.write((byte) 'x');
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

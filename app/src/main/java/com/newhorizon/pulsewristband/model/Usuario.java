@@ -1,9 +1,12 @@
 package com.newhorizon.pulsewristband.model;
 
+import com.google.firebase.database.DatabaseReference;
 import com.newhorizon.pulsewristband.R;
+import com.newhorizon.pulsewristband.conf.ConfiguracaoFirebase;
 
 public class Usuario {
 
+    private String id;
     private String nome;
     private String email;
     private String senha;
@@ -14,6 +17,20 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
         this.publico = publico;
+    }
+
+    public void salvar(){
+        DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference usuario = reference.child("usuarios").child(getId());
+        usuario.setValue(this);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNome() {

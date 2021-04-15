@@ -11,7 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.newhorizon.pulsewristband.R;
+import com.newhorizon.pulsewristband.conf.ConfiguracaoFirebase;
+import com.newhorizon.pulsewristband.helper.Base64CD;
+import com.newhorizon.pulsewristband.model.Dado;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,27 +26,23 @@ import java.util.UUID;
 
 
 public class Menu extends AppCompatActivity {
-    ConnectThread connect;
-
-    private static final String TAG = "MY_APP_DEBUG_TAG";
-    static final UUID mUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private final static int REQUEST_ENABLE_BT = 1;
 
-
     Button conectar;
     Button ler;
-    Button escrever;
     static TextView conectado;
-    TextView test;
 
     private InputStream inStream;
     private OutputStream outStream;
-    private byte[] mmBuffer; // mmBuffer store for the stream
 
     BluetoothSocket socket = null;
 
-    InputStreamReader reader;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
+    DatabaseReference dados;
+
+    Dado dado;
 
 
     @Override
@@ -49,15 +50,14 @@ public class Menu extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        String codeEmail = Base64CD.codeBase64(mAuth.getCurrentUser().getEmail());
+        dados = reference.child("usuarios").child(codeEmail).child("dados");
 
 
         conectar = findViewById(R.id.b_connect);
         ler = findViewById(R.id.b_ler);
-        escrever = findViewById(R.id.b_escrever);
         conectado = findViewById(R.id.connection);
-        test = findViewById(R.id.test);
 
-        mmBuffer = new byte[0];
         BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice("00:20:05:00:05:E1");
 
 
@@ -79,7 +79,9 @@ public class Menu extends AppCompatActivity {
                     outStream = socket.getOutputStream();
 
                     if (socket.isConnected()){
+                        conectado.setTextColor(0xFF00FF00);
                         conectado.setText("Connectado");
+
                     }
 
                 } catch (IOException e) {
@@ -119,7 +121,8 @@ public class Menu extends AppCompatActivity {
                     if (a.matches("([0-9]+:[0-1]\r\n)")){
                         a = a.replaceAll("\\r\\n", "");
                         String[] ajustado = a.split(":");
-                        System.out.println("Regex: "+ajustado[0]);
+                        dado = new Dado(Integer.parseInt(ajustado[0]),Integer.parseInt(ajustado[1]));
+                        dados.setValue(dado);
                     }else{
                         Thread.sleep(200);
                     }

@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.newhorizon.pulsewristband.R;
 import com.newhorizon.pulsewristband.conf.ConfiguracaoFirebase;
+import com.newhorizon.pulsewristband.helper.Base64CD;
 import com.newhorizon.pulsewristband.model.Usuario;
 
 public class Cadastro extends AppCompatActivity {
@@ -50,14 +51,16 @@ public class Cadastro extends AppCompatActivity {
         cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // if (!nome.getText().toString().isEmpty() || !email.getText().toString().isEmpty() || !senha.getText().toString().isEmpty()){
-                    //if (senha.toString().equals(confirmar.toString())) {
+                if (!nome.getText().toString().isEmpty() && !email.getText().toString().isEmpty() && !senha.getText().toString().isEmpty()){
+                    if (senha.getText().toString().equals(confirmar.getText().toString())) {
                         Usuario usuario = new Usuario(nome.getText().toString(),email.getText().toString(),senha.getText().toString(),escolhido.getText().toString());
                         cadastrar(usuario);
-                   // }
-                //}else{
-                  //  Toast.makeText(Cadastro.this, "Digite corretamente os dados acima!", Toast.LENGTH_SHORT).show();
-                //}
+                    }else{
+                        Toast.makeText(Cadastro.this, "Senhas não correspondem", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(Cadastro.this, "Digite corretamente os dados acima!", Toast.LENGTH_SHORT).show();
+                }
             }
 
 
@@ -77,6 +80,13 @@ public class Cadastro extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+                    try{
+                        String idUsuario = Base64CD.codeBase64(u.getEmail());
+                        u.setId(idUsuario);
+                        u.salvar();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     finish();
                 }else{
                     Toast.makeText(Cadastro.this, "Erro. Tente mais tarde!", Toast.LENGTH_SHORT).show();

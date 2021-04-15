@@ -1,4 +1,4 @@
-package com.newhorizon.pulsewristband;
+package com.newhorizon.pulsewristband.view;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

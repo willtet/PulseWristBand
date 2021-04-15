@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <TextView
         android:id="@+id/id_logo"
@@ -53,6 +53,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginLeft="44dp"
         android:layout_marginBottom="58dp"
+        android:clickable="true"
         android:text="Cadastrar"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

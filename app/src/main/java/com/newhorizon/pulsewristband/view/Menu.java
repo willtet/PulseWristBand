@@ -1,4 +1,4 @@
-package com.newhorizon.pulsewristband;
+package com.newhorizon.pulsewristband.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,19 +6,16 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.newhorizon.pulsewristband.R;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.UUID;
 
@@ -44,6 +41,8 @@ public class Menu extends AppCompatActivity {
 
     BluetoothSocket socket = null;
 
+    InputStreamReader reader;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +59,7 @@ public class Menu extends AppCompatActivity {
 
         mmBuffer = new byte[0];
         BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice("00:20:05:00:05:E1");
+
 
 
 
@@ -98,53 +98,42 @@ public class Menu extends AppCompatActivity {
         ler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                byte[] buffer = new byte[1024];
-                boolean x = true;
-                int bytes;
-                int counter = 0;
-                int media = 0;
-                int parse = 0;
-                while(true){
-                    try {
-                        bytes = inStream.read(buffer);
-                        String a = new String(buffer, 0, bytes);
-
-                        if(a.contains("c")){
-                            while(x){
-                                synchronized (inStream){
-                                    bytes = inStream.read(buffer);
-                                    Thread.sleep(1500);
-                                }
-                                a = new String(buffer, 0, bytes);
-                                System.out.println(a);
-                                if (a.contains("x")){
-                                    break;
-                                }
-                                try {
-                                    parse = Integer.parseInt(a);
-                                    media += parse;
-                                    counter++;
-                                }catch (final NumberFormatException e){
-                                    parse = 0;
-                                }
-
-                            }
-                            System.out.println("media: "+media/counter);
-                        }
-                    }catch (Exception e){
-                        x = false;
-                    }
-                }
-
-
-
+                leituraDados();
+                return;
             }
         });
     }
 
+    private void leituraDados() {
+        byte[] buffer = new byte[1025];
+        boolean x = true;
+        int bytes = 0;
+        String a = "";
+        while(true){
+            try {
+//
+                if (inStream.available() > 5){
+                    bytes = inStream.read(buffer);
+                    a = new String(buffer, 0, bytes);
+                    System.out.println("print: "+a);
+                    if (a.matches("([0-9]+:[0-1]\r\n)")){
+                        a = a.replaceAll("\\r\\n", "");
+                        String[] ajustado = a.split(":");
+                        System.out.println("Regex: "+ajustado[0]);
+                    }else{
+                        Thread.sleep(200);
+                    }
+                }
 
 
+            }catch (Exception e){
+                x = false;
+            }
+
+
+
+        }
+    }
 
 
 }

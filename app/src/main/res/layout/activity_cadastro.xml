@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Cadastro">
+    tools:context=".view.Cadastro">
 
     <TextView
         android:id="@+id/tx_cadastro"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:layout_marginBottom="37dp"
         android:text="Cadastro"
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="checkedButton"
-            android:text="Paciente"
+            android:text="paciente"
             android:textSize="18sp" />
 
         <RadioButton
@@ -91,16 +91,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="checkedButton"
-            android:text="Cuidador"
+            android:text="cuidador"
             android:textSize="18sp" />
     </RadioGroup>
 
     <Button
         android:id="@+id/bt_cadastrar"
-        android:layout_width="176dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="75dp"
-        android:text="Button"
+        android:text="Cadastrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

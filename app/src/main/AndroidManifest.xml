@@ -17,13 +17,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PulseWristBand">
-        <activity android:name=".Test"></activity>
-        <activity android:name=".Cadastro" />
-        <activity android:name=".Inicial" />
-        <activity android:name=".Menu">
-
+        <activity android:name=".view.Cadastro" >
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".view.Inicial" />
+        <activity android:name=".view.Menu">
+        </activity>
+        <activity android:name=".view.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ public class Usuario {
     private String email;
     private String senha;
     private String publico;
+    private Dado dados;
 
     public Usuario(String nome, String email, String senha, String publico) {
         this.nome = nome;
@@ -23,6 +24,14 @@ public class Usuario {
         DatabaseReference reference = ConfiguracaoFirebase.getFirebaseDatabase();
         DatabaseReference usuario = reference.child("usuarios").child(getId());
         usuario.setValue(this);
+    }
+
+    public Dado getDados() {
+        return dados;
+    }
+
+    public void setDados(Dado dados) {
+        this.dados = dados;
     }
 
     public String getId() {

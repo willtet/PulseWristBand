@@ -10,6 +10,5 @@ public class Base64CD {
 
     public static String decodeBase64(String texto){
         return new String(Base64.decode(texto, Base64.DEFAULT));
-
     }
 }

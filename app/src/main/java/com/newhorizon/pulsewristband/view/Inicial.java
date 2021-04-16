@@ -94,6 +94,12 @@ public class Inicial extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         bpm.setText(snapshot.child("cardio").getValue().toString());
+                                        if(snapshot.child("queda").getValue().toString().equals("1")){
+                                            imagem.setImageResource(imagens[1]);
+                                        }else{
+                                            imagem.setImageResource(imagens[0]);
+                                        }
+
                                     }
 
                                     @Override

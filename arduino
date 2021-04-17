@@ -13,6 +13,14 @@ const int BlinkLED13 = 13;     // On-board Arduino LED 13 (Pulse Sensor)
 const int HBeat = 650;    // Determine which Signal to "count as a beat", and which to ingore.
 String data = "";
 
+int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
+int16_t dx,dy,dz;
+int OldAcX,OldAcY,OldAcZ,OldTmp,OldGyX,OldGyY,OldGyZ;
+
+int AcSensitivity =10000;
+boolean moved=false;
+int n=0;
+
 // Instância o Objetos
 PulseSensorPlayground pulseSensor;
 Adafruit_MPU6050 mpu;
@@ -131,45 +139,28 @@ void setup() {
 
 // The Main Loop Function+
 void loop() {
-
-  //  while(bluetooth.available() > 0) {
-  //    data += char(bluetooth.read());
-  //  }
-  //printDadosGiroscopio();
-  //char c = bluetooth.read();
-  //char c = bluetooth.peek();
-  //Serial.println(bluetooth.write(45));
-  //Serial.println(data);
-  //Check received a byte from hardware serial
-
-
-  //Sensor Cardiaco
-
   printSensorCardiaco();
-  //printDadosGiroscopio();
-
-
-
-
-  delay(2000);
+  Serial.print(":");
+  printDadosGiroscopio();
+  delay(200);
 }
 
 
 void printSensorCardiaco() {
-  delay(2500);
   int count = 0;
-  Serial.print("c");
+  int media = 0;
   do{
     int BPM;
     BPM = pulseSensor.getBeatsPerMinute();
     if (pulseSensor.sawStartOfBeat()) {
-      Serial.println(String(BPM));
-      delay(5500);
+      media += BPM;
+      count++;
     }
-    count++;
-  }while(count < 10);
-  Serial.print('x');
-
+  }while(count < 5);
+  media /=count;
+  
+  Serial.print(media);
+  delay(1000);
 
 }
 
@@ -178,26 +169,38 @@ void printDadosGiroscopio(void) {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
 
-  /* Print out the values */
-  Serial.print("Acceleration X: ");
-  Serial.print(a.acceleration.x);
-  Serial.print(", Y: ");
-  Serial.print(a.acceleration.y);
-  Serial.print(", Z: ");
-  Serial.print(a.acceleration.z);
-  Serial.println(" m/s^2");
+  AcX=a.acceleration.x;
+  AcY=a.acceleration.y;
+  AcZ=a.acceleration.z;
+  Tmp=temp.temperature;
+  GyX=g.gyro.x;
+  GyY=g.gyro.y;
+  GyZ=g.gyro.z;
 
-  Serial.print("Rotation X: ");
-  Serial.print(g.gyro.x);
-  Serial.print(", Y: ");
-  Serial.print(g.gyro.y);
-  Serial.print(", Z: ");
-  Serial.print(g.gyro.z);
-  Serial.println(" rad/s");
+  dx=abs(AcX-OldAcX);
+  dy=abs(AcY-OldAcY);
+  dz=abs(AcZ-OldAcZ);
 
-  Serial.print("Temperature: ");
-  Serial.print(temp.temperature);
-  Serial.println(" degC");
+  if(dx>AcSensitivity || dy>AcSensitivity || dz>AcSensitivity){
+    moved=true;
+    n=n+1;
+  }
+    
 
-  Serial.println("");
+  if(moved==true & n>2){
+    Serial.println("1");  
+  }else{
+    Serial.println("0");
+  }
+
+  OldAcX=AcX;
+  OldAcY=AcY;
+  OldAcZ=AcZ;
+  moved=false;
+  delay(200);
+  
+
+
+
+  
 }

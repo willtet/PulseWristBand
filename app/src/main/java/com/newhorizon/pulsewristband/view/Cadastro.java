@@ -84,6 +84,7 @@ public class Cadastro extends AppCompatActivity {
                         String idUsuario = Base64CD.codeBase64(u.getEmail());
                         u.setId(idUsuario);
                         u.salvar();
+                        Toast.makeText(Cadastro.this, "Cadastrado com Sucesso!", Toast.LENGTH_SHORT).show();
                     }catch (Exception e){
                         e.printStackTrace();
                     }

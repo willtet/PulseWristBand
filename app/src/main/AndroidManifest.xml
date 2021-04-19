@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <!--
  If your app targets Android 9 or lower, you can declare
          ACCESS_COARSE_LOCATION instead.
@@ -17,19 +18,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PulseWristBand">
-        <activity android:name=".view.Cadastro" >
-        </activity>
+        <activity android:name=".view.NotificacaoActivity"></activity>
+        <activity android:name=".view.Cadastro"></activity>
         <activity android:name=".view.Inicial" />
-        <activity android:name=".view.Menu">
-        </activity>
-        <activity android:name=".view.MainActivity" >
+        <activity android:name=".view.Menu"></activity>
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -10,20 +10,19 @@
         android:id="@+id/b_connect"
         android:layout_width="148dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="123dp"
+        android:layout_marginBottom="66dp"
         android:text="Conectar com dispositivo"
         app:layout_constraintBottom_toTopOf="@+id/b_ler"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/connection" />
 
     <TextView
         android:id="@+id/connection"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="69dp"
-        android:layout_marginBottom="62dp"
+        android:layout_marginBottom="119dp"
         android:autoText="false"
         android:text="Not connected"
         android:textColor="@android:color/holo_red_light"
@@ -37,11 +36,10 @@
         android:id="@+id/b_ler"
         android:layout_width="134dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="309dp"
+        android:layout_marginBottom="308dp"
         android:text="Realizar a leitura"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/b_connect" />
 

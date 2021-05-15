@@ -7,16 +7,27 @@
     tools:context=".view.Inicial">
 
     <TextView
+        android:id="@+id/tx_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="33dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginBottom="115dp"
         android:text="Digite o email do paciente:"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/ed_emailPaciente"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tx_nome" />
+        app:layout_constraintBottom_toTopOf="@+id/id_nomePaciente"
+        app:layout_constraintEnd_toStartOf="@+id/tx_nome"
+        app:layout_constraintStart_toStartOf="@+id/tx_nome"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/ed_emailPaciente"
@@ -24,81 +35,77 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="1dp"
         android:layout_marginRight="1dp"
-        android:layout_marginBottom="41dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/id_nomePaciente"
+        app:layout_constraintBaseline_toBaselineOf="@+id/bt_procurarPaciente"
         app:layout_constraintEnd_toStartOf="@+id/bt_procurarPaciente"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/bt_procurarPaciente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
         android:text="Procurar"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ed_emailPaciente"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ed_emailPaciente" />
+        app:layout_constraintStart_toEndOf="@+id/ed_emailPaciente"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/id_nomePaciente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="35dp"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_emailPaciente" />
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="@+id/ed_emailPaciente" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="17dp"
-        app:layout_constraintBottom_toTopOf="@+id/tx_batimento"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frequencia cardíaca: "
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/id_nomePaciente"
         app:layout_constraintStart_toStartOf="@+id/id_nomePaciente"
-        app:layout_constraintTop_toBottomOf="@+id/id_nomePaciente"
-        app:srcCompat="@drawable/cardio" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tx_batimento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginTop="36dp"
         android:text="BPM"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/img_queda"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <ImageView
-        android:id="@+id/img_queda"
-        android:layout_width="120dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="58dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tx_batimento"
-        app:srcCompat="@drawable/velho" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
-        android:id="@+id/tx_nome"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="39dp"
+        android:layout_marginBottom="31dp"
+        android:text="Houve a queda?"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="Não"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,7 +33,10 @@ import com.newhorizon.pulsewristband.helper.Base64CD;
 import com.newhorizon.pulsewristband.model.Dado;
 import com.newhorizon.pulsewristband.model.Usuario;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Inicial extends AppCompatActivity {
 
@@ -47,14 +50,17 @@ public class Inicial extends AppCompatActivity {
     EditText campoPesquisa;
     Button pesquisar;
     TextView bpm;
-    int[] imagens;
-    ImageView imagem ;
+    TextView pacienteNome;
+    TextView queda;
+    TextView quedaHora;
 
     int notifyID = 1;
     String CHANNEL_ID = "my_channel_01";
 
     ArrayList<Usuario> usuarios = new ArrayList<>();
     boolean found = false;
+    Date currentTime;
+    SimpleDateFormat formater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +72,11 @@ public class Inicial extends AppCompatActivity {
         bemvindo = findViewById(R.id.tx_nome);
         campoPesquisa = findViewById(R.id.ed_emailPaciente);
         pesquisar = findViewById(R.id.bt_procurarPaciente);
+
+        pacienteNome = findViewById(R.id.id_nomePaciente);
         bpm = findViewById(R.id.tx_batimento);
-        imagens = new int[]{R.drawable.velho,R.drawable.queda};
+        queda = findViewById(R.id.text_queda);
+        quedaHora = findViewById(R.id.horario_queda);
 
 
 
@@ -104,17 +113,20 @@ public class Inicial extends AppCompatActivity {
                             }
 
                             if (found){
-                                paciente = reference.child("usuarios").child(codeEmail).child("dados");
+                                paciente = reference.child("usuarios").child(codeEmail);
                                 paciente.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        bpm.setText(snapshot.child("cardio").getValue().toString());
-                                        if(snapshot.child("queda").getValue().toString().equals("1")){
-                                            imagem.setImageResource(imagens[1]);
-                                            alertNotificatite();
-
+                                        bpm.setText(snapshot.child("dados").child("cardio").getValue().toString());
+                                        pacienteNome.setText(snapshot.child("nome").getValue().toString());
+                                        if(snapshot.child("dados").child("queda").getValue().toString().equals("1")){
+                                            alertNotificatite(snapshot.child("nome").getValue().toString(), snapshot.child("dados").child("latitude").getValue().toString(), snapshot.child("dados").child("longitude").getValue().toString());
+                                            queda.setTextColor(0xFFFF0000);
+                                            queda.setText("Queda Detectada");
+                                            quedaHora.setText(snapshot.child("dados").child("horarioQueda").getValue().toString());
                                         }else{
-                                            imagem.setImageResource(imagens[0]);
+                                            queda.setTextColor(0xFF00FF00);
+                                            queda.setText("Não");
                                         }
 
                                     }
@@ -142,10 +154,13 @@ public class Inicial extends AppCompatActivity {
 
 
 
-    private void alertNotificatite(){
+    private void alertNotificatite(String pacientes, String latitude, String longitude){
         //Define sound URI
        // Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Intent intent = new Intent(this,NotificacaoActivity.class);
+        Uri gmmIntentUri = Uri.parse("google.streetview:cbll="+latitude+","+longitude);
+        Intent intent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
+        intent.setPackage("com.google.android.apps.maps");
+
         PendingIntent pending = PendingIntent.getActivity(getBaseContext(),100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -153,8 +168,8 @@ public class Inicial extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext(),CHANNEL_ID)
                 .setSmallIcon(R.drawable.common_google_signin_btn_icon_disabled)
                 .setContentTitle("Queda detectada!")
-                .setContentText("Informamos que houve uma queda do paciente!")
-         //       .setSound(soundUri)
+                .setContentText("Informamos que houve uma queda do "+pacientes+"! Toque aqui para ver no mapa.")
+        //        .setSound(soundUri)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setContentIntent(pending)
                 .setAutoCancel(true);

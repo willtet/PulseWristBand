@@ -2,5 +2,6 @@
     <string name="app_name">PulseWristBand</string>
     <string name="channel_name">Queda</string>
     <string name="channel_description">PulseWristBand</string>
+    <string name="title_activity_localizacao">Map</string>
 
 </resources>

@@ -68,7 +68,6 @@ public class Inicial extends AppCompatActivity {
         pesquisar = findViewById(R.id.bt_procurarPaciente);
         bpm = findViewById(R.id.tx_batimento);
         imagens = new int[]{R.drawable.velho,R.drawable.queda};
-        imagem = findViewById(R.id.img_queda);
 
 
 
